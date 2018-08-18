@@ -7,7 +7,7 @@ import java.math.BigDecimal;
 import java.util.Date;
 
 @Entity
-@Table(name = "stock", schema = "stockapp")
+@Table(name = "stock")
 public class Stock implements Serializable {
     @Id
     @GeneratedValue
@@ -19,17 +19,23 @@ public class Stock implements Serializable {
     @Column
     private BigDecimal currentPrice;
 
-    @Column
+    @Temporal(TemporalType.TIMESTAMP)
     private Date updated;
 
     public Stock() {
+    }
+
+    public Stock(Long id, String name, BigDecimal currentPrice) {
+        this.id = id;
+        this.name = name;
+        this.currentPrice = currentPrice;
     }
 
     public Stock(Long id, String name, BigDecimal currentPrice, Date updated) {
         this.id = id;
         this.name = name;
         this.currentPrice = currentPrice;
-        this.updated = updated;
+        this.updated = updated == null ? new Date(): updated;
     }
 
 

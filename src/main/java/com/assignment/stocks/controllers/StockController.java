@@ -1,7 +1,9 @@
 package com.assignment.stocks.controllers;
 
 import com.assignment.stocks.domain.Stock;
+import com.assignment.stocks.dto.StockDTO;
 import com.assignment.stocks.services.StockService;
+import com.assignment.stocks.utils.StockUtil;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,44 +21,43 @@ public class StockController {
     @Autowired
     private StockService stockService;
 
-
-    @PostMapping(value = "",
-            consumes = "application/json",
-            produces = "application/json")
+    @PostMapping(value = "")
     @ApiOperation(value = "Create a Stock resource.")
-    public ResponseEntity<Stock> createStock(@RequestBody Stock stock){
-        Stock createdStock = stockService.createStock(stock);
-        return ResponseEntity.status(HttpStatus.CREATED).body(createdStock);
+    public ResponseEntity<StockDTO> createStock(@RequestBody StockDTO stockDTO){
+        Stock createdStock = stockService.createStock(StockUtil.stockDtoToStock(stockDTO));
+        return ResponseEntity.status(HttpStatus.CREATED).body(StockUtil.stockToStockDTO(createdStock));
     }
 
-
-    @PutMapping(value = "/{id}",
-            consumes = "application/json",
-            produces = "application/json")
+//TODO: add validation
+    @PutMapping(value = "/{id}")
     //@ResponseStatus(HttpStatus.NO_CONTENT) todo: best way?
     @ApiOperation(value = "Update a Stock resource.")
-    public ResponseEntity<Stock> updateStock(@ApiParam(value = "The ID of the existing Stock resource.", required = true)
-                                @PathVariable("id") Long id, @RequestBody Stock stock){
+    public ResponseEntity<StockDTO> updateStock(@ApiParam(value = "The ID of the existing Stock resource.", required = true)
+                                @PathVariable("id") Long id, @RequestBody StockDTO stockDTO){
         //todo : handle id not present
+        Stock stock = stockService.findStock(id);
+        if (stock != null){
+            stock.setCurrentPrice(stockDTO.getCurrentPrice());
+            stock.setName(stockDTO.getName());
+            return ResponseEntity.status(HttpStatus.OK).body(StockUtil.stockToStockDTO(stockService.updateStock(stock)));
+        }
 
-        return ResponseEntity.status(HttpStatus.OK).body(stockService.updateStock(stock));
+        return null;//TODO
     }
 
-    @GetMapping(value = "/{id}",
-            produces = "application/json")
+    @GetMapping(value = "/{id}")
     @ApiOperation(value = "Get a single Stock.")
-    public ResponseEntity<Stock> getStock(@ApiParam(value = "The ID of the Stock.", required = true)
+    public ResponseEntity<StockDTO> getStock(@ApiParam(value = "The ID of the Stock.", required = true)
                               @PathVariable("id") Long id){
         //todo: same
 
-        return ResponseEntity.status(HttpStatus.OK).body(stockService.findStock(id));
+        return ResponseEntity.status(HttpStatus.OK).body(StockUtil.stockToStockDTO(stockService.findStock(id)));
     }
 
-    @GetMapping(value = "",
-            produces = "application/json")
+    @GetMapping(value = "")
     @ResponseStatus(HttpStatus.OK)
     public ResponseEntity<?> getAllStocks(){
-        return ResponseEntity.status(HttpStatus.OK).body(stockService.getAllStocks());
+        return ResponseEntity.status(HttpStatus.OK).body(stockService.getAllStocks());//TODO : add Stream
     }
 
 

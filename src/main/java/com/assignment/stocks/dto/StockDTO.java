@@ -1,6 +1,9 @@
 package com.assignment.stocks.dto;
 
+import com.assignment.stocks.domain.Stock;
+
 import java.math.BigDecimal;
+import java.util.Date;
 
 public class StockDTO {
 
@@ -10,18 +13,23 @@ public class StockDTO {
 
     private BigDecimal currentPrice;
 
+    private Date updated;
+
     public StockDTO() {
     }
 
-    public StockDTO(Long id, String name, BigDecimal currentPrice) {
+    public StockDTO(Stock stock){
+        this.id = stock.getId();
+        this.name = stock.getName();
+        this.currentPrice = stock.getCurrentPrice();
+        this.updated = stock.getUpdated();
+    }
+
+    public StockDTO(Long id, String name, BigDecimal currentPrice, Date updated) {
         this.id = id;
         this.name = name;
         this.currentPrice = currentPrice;
-    }
-
-    public StockDTO(String name, BigDecimal currentPrice) {
-        this.name = name;
-        this.currentPrice = currentPrice;
+        this.updated = updated;
     }
 
     public Long getId() {
@@ -48,12 +56,21 @@ public class StockDTO {
         this.currentPrice = currentPrice;
     }
 
+    public Date getUpdated() {
+        return updated;
+    }
+
+    public void setUpdated(Date updated) {
+        this.updated = updated;
+    }
+
     @Override
     public String toString() {
         final StringBuilder sb = new StringBuilder("StockDTO{");
         sb.append("id=").append(id);
         sb.append(", name='").append(name).append('\'');
         sb.append(", currentPrice=").append(currentPrice);
+        sb.append(", updated=").append(updated);
         sb.append('}');
         return sb.toString();
     }
