@@ -1,7 +1,6 @@
 package com.assignment.stocks.services;
 
 import com.assignment.stocks.domain.Stock;
-import com.assignment.stocks.dto.StockDTO;
 
 import java.util.List;
 

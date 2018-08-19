@@ -4,6 +4,7 @@ import com.assignment.stocks.domain.Stock;
 import com.assignment.stocks.dto.StockDTO;
 import com.assignment.stocks.services.StockService;
 import com.assignment.stocks.utils.StockUtil;
+import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +16,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/stocks")
+@Api(value = "stocks", description = "Operations pertaining to Stocks", tags = {"stocks"})
 public class StockController {
 
 
