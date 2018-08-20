@@ -1,12 +1,12 @@
 # Stocks Application
 
-A Java / Maven / Spring Boot application.
+Built using  Java / Maven / Spring Boot / H2 DB.
 
 ## How to Run 
 
-This application is packaged as a war which has Tomcat 8 embedded. No Tomcat or JBoss installation is necessary. You run it using the ```java -jar``` command.
+This application is packaged as a war which has Tomcat 8 embedded.
 
-* Make sure you are using JDK 1.8 and Maven 3.x
+* Requirements:  JDK 1.8 and Maven 3.x
 * Can build the project and run the tests by running ```mvn clean package```
 * Once successfully built, service can be run by:
 ```
