@@ -15,11 +15,7 @@ This application is packaged as a war which has Tomcat 8 embedded. No Tomcat or 
 
 ## About the Service
 
-The service is a Stocks REST service. It uses an in-memory database (H2) to store the data.
-
-
-You can use this sample service to understand the conventions and configurations that allow you to create a DB-backed RESTful service. Once you understand and get comfortable with the sample app you can add your own services following the same patterns as the sample service.
-
+The service is a Stocks REST Application. It uses an in-memory database (H2) to store the data.
 
 
 Following are the REST endpoints with sample request & response:
