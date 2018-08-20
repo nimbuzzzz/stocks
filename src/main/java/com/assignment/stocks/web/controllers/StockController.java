@@ -6,9 +6,7 @@ import com.assignment.stocks.services.StockService;
 import com.assignment.stocks.utils.StockUtil;
 import com.assignment.stocks.web.exceptions.ResourceNotFoundException;
 import com.assignment.stocks.web.exceptions.WrongRequestParamException;
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
-import io.swagger.annotations.ApiParam;
+import io.swagger.annotations.*;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -35,6 +33,10 @@ public class StockController {
 
     @PostMapping(value = "", produces = MediaType.APPLICATION_JSON_VALUE)
     @ApiOperation(value = "Create a Stock.")
+    @ApiResponses(value = {
+            @ApiResponse(code = 201, message = "Successfully created Stock"),
+            @ApiResponse(code = 400, message = "Invalid input")
+    })
     public ResponseEntity<StockDTO> createStock(@RequestBody StockDTO stockDTO){
 
         log.debug("Request received to create a stock :  {}", stockDTO);
@@ -45,13 +47,16 @@ public class StockController {
                 .fromUriString("/api/stocks/{id}")
                 .buildAndExpand(createdStock.getId()).toUri();
 
-        return ResponseEntity.created(stockURI).body(StockUtil.stockToStockDTO(createdStock));
+        return ResponseEntity.created(stockURI).body(StockUtil.stockToStockDTO(createdStock));//TODO: ask why no status?
     }
 
 //TODO: add validation
     @PutMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     //@ResponseStatus(HttpStatus.NO_CONTENT) todo: best way?
     @ApiOperation(value = "Update a Stock.")
+    @ApiResponses(value = { @ApiResponse(code = 400, message = "Invalid ID/Stock supplied"),
+                            @ApiResponse(code = 404, message = "Stock not found"),
+                            @ApiResponse(code = 200, message = "Succesfully updated the Stock") })
     public ResponseEntity<StockDTO> updateStock(@ApiParam(value = "The ID of the existing Stock resource.", required = true)
                                 @PathVariable("id") Long id, @RequestBody StockDTO stockDTO){
         log.debug("Request received to update stock price of stock {}", stockDTO);
@@ -69,6 +74,9 @@ public class StockController {
 
     @GetMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     @ApiOperation(value = "Get a single Stock.")
+    @ApiResponses(value = { @ApiResponse(code = 400, message = "Invalid ID/Stock supplied"),
+                            @ApiResponse(code = 404, message = "Stock not found"),
+                            @ApiResponse(code = 200, message = "Succesfully fetched the Stock")})
     public ResponseEntity<StockDTO> getStock(@ApiParam(value = "The ID of the Stock.", required = true)
                               @PathVariable("id") Long id){
         log.debug("Request received to get details of stock with id ", id);
@@ -81,6 +89,8 @@ public class StockController {
 
     @GetMapping(value = "", produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.OK)
+    @ApiResponses(value = { @ApiResponse(code = 400, message = "Invalid Page number/Page size supplied"),
+                            @ApiResponse(code = 200, message = "Successfully fetched Stocks") })
     public ResponseEntity<Page<StockDTO>> getAllStocks(@RequestParam(value = "pageNumber", defaultValue = "0", required = false) int pageNumber,
                                                        @RequestParam(value = "pageSize", defaultValue = "10", required = false) int pageSize) {
 
