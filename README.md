@@ -1,5 +1,12 @@
 # Stocks Application
 
+Java based backend application using REST to perform CRU operations through REST on Stocks stored in an in-memory database.
+A Stock consists of :
+- System generated unique Id
+- Name
+- Current Price
+- Last Updated time
+
 Built using  Java / Maven / Spring Boot / H2 DB.
 
 ## How to Run 
