@@ -6,10 +6,10 @@
 	<groupId>com.assignment</groupId>
 	<artifactId>stocks</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<packaging>jar</packaging>
+	<packaging>war</packaging>
 
 	<name>stocks</name>
-	<description>project with Spring Boot</description>
+	<description>Stocks REST Application</description>
 
 	<parent>
 		<groupId>org.springframework.boot</groupId>
