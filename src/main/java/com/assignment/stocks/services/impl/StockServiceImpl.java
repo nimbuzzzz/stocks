@@ -1,35 +1,30 @@
 package com.assignment.stocks.services.impl;
 
 import com.assignment.stocks.domain.Stock;
-import com.assignment.stocks.dto.StockDTO;
-import com.assignment.stocks.repositories.StockJdbcRepository;
+import com.assignment.stocks.repositories.StocksRepository;
 import com.assignment.stocks.services.StockService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.Optional;
 
 @Service
 public class StockServiceImpl implements StockService {
 
     @Autowired
-    private StockJdbcRepository stockRepository;
+    private StocksRepository stockRepository;
 
-    public List<Stock> getAllStocks(){ //todo add pagination
-
-        return stockRepository.findAll();
+    public Page<Stock> getAllStocks(Pageable pageRequest) {
+        return stockRepository.findAll(pageRequest);
     }
 
-    public Stock findStock(Long id){
-        return  stockRepository.getOne(id);
+    public Optional<Stock> findStock(Long id) {
+        return stockRepository.findById(id);
     }
 
-    public Stock updateStock(Stock stock){
-        return stockRepository.save(stock);
-    }
-
-    public Stock createStock(Stock stock){
+    public Stock save(Stock stock) {
         return stockRepository.save(stock);
     }
 }

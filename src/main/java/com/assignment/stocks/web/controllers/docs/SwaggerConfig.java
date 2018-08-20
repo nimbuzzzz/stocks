@@ -1,4 +1,4 @@
-package com.assignment.stocks.controllers.docs;
+package com.assignment.stocks.web.controllers.docs;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

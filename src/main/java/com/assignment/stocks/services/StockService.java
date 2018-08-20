@@ -1,16 +1,16 @@
 package com.assignment.stocks.services;
 
 import com.assignment.stocks.domain.Stock;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
-import java.util.List;
+import java.util.Optional;
 
 public interface StockService {
 
-    List<Stock> getAllStocks();
+    Page<Stock> getAllStocks(Pageable pageRequest);
 
-    Stock findStock(Long id);
+    Optional<Stock> findStock(Long id);
 
-    Stock updateStock(Stock stock);
-
-    Stock createStock(Stock stock);
+    Stock save(Stock stock);
 }
