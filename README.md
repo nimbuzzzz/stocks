@@ -24,7 +24,7 @@ Here is what this little application demonstrates:
 
 
 
-Following are the REST endpoints:
+Following are the REST endpoints with sample request & response:
 
 ### Get information about system health:
 
@@ -43,15 +43,38 @@ Content-Type: application/json
   "currentPrice": 11,
   "name": "StockName"
 }
+
 RESPONSE: HTTP 201 (Created)
 Location header: /api/stocks/1
+Response Body:
+{
+  "id": 12,
+  "name": "second",
+  "currentPrice": 2.234,
+  "updated": "2018-08-20T18:23:14.454+0000"
+}
 ```
+
+### Retrieve a single stock
+
+```
+GET /api/stocks/12
+RESPONSE: HTTP 200
+Response Body:
+{
+  "id": 12,
+  "name": "second",
+  "currentPrice": 2.23,
+  "updated": "2018-08-20T18:23:14.454+0000"
+}
+```
+
 
 ### Retrieve a paginated list of stocks
 
 ```
-http://localhost:8080/api/stocks?pageNumber=1&pageSize=10
-Response: HTTP 200
+GET /api/stocks?pageNumber=0&pageSize=10
+RESPONSE: HTTP 200
 Content: paginated list 
 ```
 
@@ -68,6 +91,13 @@ Content-Type: application/json
 }
 
 RESPONSE: HTTP 200 (OK)
+Response Body:
+{
+  "id": 11,
+  "name": "first",
+  "currentPrice": 68,
+  "updated": "2018-08-20T19:01:02.982+0000"
+}
 ```
 ### To view Swagger 2 API docs
 
