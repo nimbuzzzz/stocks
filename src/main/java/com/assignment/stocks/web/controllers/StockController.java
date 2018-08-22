@@ -48,12 +48,10 @@ public class StockController {
                 .fromUriString("/api/stocks/{id}")
                 .buildAndExpand(createdStock.getId()).toUri();
 
-        return ResponseEntity.created(stockURI).body(StockUtil.stockToStockDTO(createdStock));//TODO: ask why no status?
+        return ResponseEntity.created(stockURI).body(StockUtil.stockToStockDTO(createdStock));
     }
 
-//TODO: add validation
     @PutMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
-    //@ResponseStatus(HttpStatus.NO_CONTENT) todo: best way?
     @ApiOperation(value = "Update a Stock.")
     @ApiResponses(value = { @ApiResponse(code = 400, message = "Invalid ID/Stock supplied"),
                             @ApiResponse(code = 404, message = "Stock not found"),
@@ -76,7 +74,7 @@ public class StockController {
                               @PathVariable("id") Long id){
         log.debug("Request received to get details of stock with id ", id);
         Stock stock = findStock(id);
-        return ResponseEntity.status(HttpStatus.OK).body(StockUtil.stockToStockDTO(stock));
+        return ResponseEntity.ok(StockUtil.stockToStockDTO(stock));
     }
 
     @GetMapping(value = "", produces = MediaType.APPLICATION_JSON_VALUE)

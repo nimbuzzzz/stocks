@@ -45,6 +45,16 @@ public class StockAppRestIntegrationTest {
     }
 
     @Test
+    public void testSaveStockWithInvalidRequest() {
+        StockDTO request = StockDTO.builder().name("Facebook").currentPrice(new BigDecimal(-11)).build();
+
+        ResponseEntity<StockDTO> response = restTemplate.postForEntity("/api/stocks", request, StockDTO.class);
+        assertThat(response.getStatusCode()).isEqualByComparingTo(HttpStatus.BAD_REQUEST);
+
+    }
+
+
+    @Test
     public void testUpdateStock() {
 
         StockDTO initialStock = createStock();
@@ -61,7 +71,19 @@ public class StockAppRestIntegrationTest {
     }
 
     @Test
-    public void testGetById() {
+    public void testUpdateStockByWrongId() {
+
+        StockDTO initialStock = createStock();
+        initialStock.setCurrentPrice(new BigDecimal(20));
+
+        HttpEntity<StockDTO> httpEntity = new HttpEntity<>(initialStock);
+        ResponseEntity<StockDTO> response = restTemplate.exchange("/api/stocks/" + Long.MAX_VALUE, HttpMethod.PUT, httpEntity, StockDTO.class);
+
+        assertThat(response.getStatusCode()).isEqualByComparingTo(HttpStatus.NOT_FOUND);
+    }
+
+    @Test
+    public void testGetByCorrectId() {
 
         StockDTO initialStock = createStock();
 
@@ -77,25 +99,15 @@ public class StockAppRestIntegrationTest {
 
     }
 
-    /*@Test
-    public void testGetAllPagedResponse() {
+    @Test
+    public void testGetByWrongId() {
+
         StockDTO initialStock = createStock();
 
+        ResponseEntity<StockDTO> response = restTemplate.getForEntity("/api/stocks/" + Long.MAX_VALUE, StockDTO.class);
+        assertThat(response.getStatusCode()).isEqualByComparingTo(HttpStatus.NOT_FOUND);
 
-        ParameterizedTypeReference<RestResponsePage<StockDTO>> ptr =
-                new ParameterizedTypeReference<RestResponsePage<StockDTO>>() {
-                };
-
-        ResponseEntity<RestResponsePage<StockDTO>> response = restTemplate.exchange("/api/stocks?pageSize=100&pageNumber=0", HttpMethod.GET, null*//*httpEntity*//*, ptr);
-
-        assertThat(response.getStatusCode()).isEqualByComparingTo(HttpStatus.OK);
-        assertThat(response.getBody()).isNotNull();
-        assertThat(response.getBody().getContent()).isNotNull();
-        assertThat(response.getBody().getContent().size()).isGreaterThanOrEqualTo(1);
-        assertThat(response.getBody().getContent().toString().contains(initialStock.getName())).isTrue();
-        assertThat(response.getBody().getContent().toString().contains(initialStock.getId().toString())).isTrue();
-
-    }*/
+    }
 
     private StockDTO createStock() {
 

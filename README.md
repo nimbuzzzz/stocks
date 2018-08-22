@@ -27,12 +27,6 @@ The service is a Stocks REST Application. It uses an in-memory database (H2) to 
 
 Following are the REST endpoints with sample request & response:
 
-### Get information about system health:
-
-```
-http://localhost:8091/health
-```
-
 ### Create a Stock resource
 
 ```

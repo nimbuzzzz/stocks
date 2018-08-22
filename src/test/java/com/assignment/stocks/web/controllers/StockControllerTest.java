@@ -80,7 +80,7 @@ public class StockControllerTest {
 
 
     @Test
-    public void testGetStockByRightId() {
+    public void testGetStockByCorrectId() {
 
         Stock stock = Stock.builder().name("Facebook").currentPrice(new BigDecimal(20.0)).id(1L).updated(new Date()).build();
 
